@@ -16,6 +16,7 @@ class FocusIslandApp extends StatelessWidget {
       title: 'Focus Island',
       theme: ThemeData(
         primarySwatch: Colors.green,
+        scaffoldBackgroundColor: const Color(0xFFF4F8F2),
       ),
       home: const HomeScreen(),
     );
@@ -30,7 +31,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int seconds = 1500;
+  static const int quickFocusSeconds = 10 * 60;
+  static const int normalFocusSeconds = 25 * 60;
+  static const int deepFocusSeconds = 50 * 60;
+
+  int selectedDuration = normalFocusSeconds;
+  int remainingSeconds = normalFocusSeconds;
   int points = 0;
   int sessions = 0;
 
@@ -57,49 +63,100 @@ class _HomeScreenState extends State<HomeScreen> {
     await prefs.setInt('sessions', sessions);
   }
 
+  void selectDuration(int seconds) {
+    if (isRunning) return;
+    setState(() {
+      selectedDuration = seconds;
+      remainingSeconds = seconds;
+    });
+  }
+
   void startTimer() {
     if (isRunning) return;
 
+    setState(() {
+      isRunning = true;
+    });
+
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (seconds > 0) {
-        setState(() => seconds--);
+      if (remainingSeconds > 0) {
+        setState(() {
+          remainingSeconds--;
+        });
       } else {
         t.cancel();
+
+        int earnedPoints = 10;
+        if (selectedDuration == quickFocusSeconds) {
+          earnedPoints = 5;
+        } else if (selectedDuration == deepFocusSeconds) {
+          earnedPoints = 25;
+        }
+
         setState(() {
           isRunning = false;
-          points += 10;
+          points += earnedPoints;
           sessions += 1;
         });
+
         saveData();
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Nice! +10 points 🎉"),
+          SnackBar(
+            content: Text('Session complete! +$earnedPoints points'),
           ),
         );
       }
     });
-
-    setState(() => isRunning = true);
   }
 
   void pauseTimer() {
     timer?.cancel();
-    setState(() => isRunning = false);
+    setState(() {
+      isRunning = false;
+    });
   }
 
   void resetTimer() {
     timer?.cancel();
     setState(() {
-      seconds = 1500;
       isRunning = false;
+      remainingSeconds = selectedDuration;
     });
   }
 
-  String formatTime() {
-    int m = seconds ~/ 60;
-    int s = seconds % 60;
-    return "$m:${s.toString().padLeft(2, '0')}";
+  String get formattedTime {
+    final minutes = (remainingSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (remainingSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  String get islandStage {
+    if (points < 20) return 'Tiny Island';
+    if (points < 50) return 'Growing Island';
+    if (points < 100) return 'Blooming Island';
+    return 'Paradise Island';
+  }
+
+  String get islandEmoji {
+    if (points < 20) return '🌱';
+    if (points < 50) return '🌴';
+    if (points < 100) return '🌺';
+    return '🏝️';
+  }
+
+  double get progressToNextStage {
+    if (points < 20) return points / 20;
+    if (points < 50) return (points - 20) / 30;
+    if (points < 100) return (points - 50) / 50;
+    return 1;
+  }
+
+  String get nextStageText {
+    if (points < 20) return '${20 - points} pts to Growing Island';
+    if (points < 50) return '${50 - points} pts to Blooming Island';
+    if (points < 100) return '${100 - points} pts to Paradise Island';
+    return 'Max island stage reached';
   }
 
   @override
@@ -108,67 +165,232 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  Widget buildDurationButton(String label, int seconds) {
+    final bool isSelected = selectedDuration == seconds;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => selectDuration(seconds),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          decoration: BoxDecoration(
+            color: isSelected ? Colors.green : Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.green.shade200),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.green.shade800,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Focus Island"),
+        title: const Text('Focus Island'),
         centerTitle: true,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(18),
         child: Column(
           children: [
-            Text(
-              "Points: $points",
-              style: const TextStyle(fontSize: 24),
-            ),
-            Text(
-              "Sessions: $sessions",
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 30),
-
-            Text(
-              formatTime(),
-              style: const TextStyle(fontSize: 50),
-            ),
-
-            const SizedBox(height: 30),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: startTimer,
-                  child: const Text("Start"),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: pauseTimer,
-                  child: const Text("Pause"),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: resetTimer,
-                  child: const Text("Reset"),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 40),
-
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => IslandScreen(points: points),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 4),
                   ),
-                );
-              },
-              child: const Text("Go to Island 🏝️"),
-            )
+                ],
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Your Progress',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    '$points Points',
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    '$sessions Completed Sessions',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Choose Your Session',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      buildDurationButton('10 min', quickFocusSeconds),
+                      const SizedBox(width: 10),
+                      buildDurationButton('25 min', normalFocusSeconds),
+                      const SizedBox(width: 10),
+                      buildDurationButton('50 min', deepFocusSeconds),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Focus Timer',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    formattedTime,
+                    style: const TextStyle(
+                      fontSize: 54,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: isRunning ? null : startTimer,
+                        child: const Text('Start'),
+                      ),
+                      ElevatedButton(
+                        onPressed: isRunning ? pauseTimer : null,
+                        child: const Text('Pause'),
+                      ),
+                      OutlinedButton(
+                        onPressed: resetTimer,
+                        child: const Text('Reset'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Island Progress',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    islandEmoji,
+                    style: const TextStyle(fontSize: 70),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    islandStage,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  LinearProgressIndicator(
+                    value: progressToNextStage,
+                    minHeight: 10,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    nextStageText,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => IslandScreen(
+                              points: points,
+                              sessions: sessions,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text('Open Island'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -178,41 +400,122 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class IslandScreen extends StatelessWidget {
   final int points;
+  final int sessions;
 
-  const IslandScreen({super.key, required this.points});
+  const IslandScreen({
+    super.key,
+    required this.points,
+    required this.sessions,
+  });
+
+  String get islandStage {
+    if (points < 20) return 'Tiny Island';
+    if (points < 50) return 'Growing Island';
+    if (points < 100) return 'Blooming Island';
+    return 'Paradise Island';
+  }
+
+  String get islandEmoji {
+    if (points < 20) return '🌱';
+    if (points < 50) return '🌴';
+    if (points < 100) return '🌺';
+    return '🏝️';
+  }
+
+  String get islandDescription {
+    if (points < 20) return 'Your island has just begun to grow.';
+    if (points < 50) return 'Nice progress. Your island is getting greener.';
+    if (points < 100) return 'Your island feels alive and beautiful.';
+    return 'Your island is now a peaceful paradise.';
+  }
 
   @override
   Widget build(BuildContext context) {
-    String stage;
-    String emoji;
-
-    if (points < 20) {
-      stage = "Tiny Island";
-      emoji = "🌱";
-    } else if (points < 50) {
-      stage = "Growing Island";
-      emoji = "🌳";
-    } else {
-      stage = "Big Island";
-      emoji = "🏝️";
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Your Island"),
+        title: const Text('Your Island'),
+        centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              emoji,
-              style: const TextStyle(fontSize: 80),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(22),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    islandEmoji,
+                    style: const TextStyle(fontSize: 90),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    islandStage,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    islandDescription,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              stage,
-              style: const TextStyle(fontSize: 28),
+            const SizedBox(height: 18),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 10,
+                    color: Colors.black12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  const Text(
+                    'Island Stats',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    'Points: $points',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Completed Sessions: $sessions',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
