@@ -141,8 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String get islandEmoji {
     if (points < 20) return '🌱';
     if (points < 50) return '🌴';
-    if (points < 100) return '🌺';
-    return '🏝️';
+    if (points < 100) return '🌸';
+    return '🌳';
   }
 
   double get progressToNextStage {
@@ -398,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class IslandScreen extends StatelessWidget {
+class IslandScreen extends StatefulWidget {
   final int points;
   final int sessions;
 
@@ -408,25 +408,54 @@ class IslandScreen extends StatelessWidget {
     required this.sessions,
   });
 
-  String get islandStage {
-    if (points < 20) return 'Tiny Island';
-    if (points < 50) return 'Growing Island';
-    if (points < 100) return 'Blooming Island';
+  @override
+  State<IslandScreen> createState() => _IslandScreenState();
+}
+
+class _IslandScreenState extends State<IslandScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _waveController;
+
+  @override
+  void initState() {
+    super.initState();
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _waveController.dispose();
+    super.dispose();
+  }
+
+  String get treeEmoji {
+    if (widget.points < 20) return '🌱';
+    if (widget.points < 50) return '🌴';
+    if (widget.points < 100) return '🌸';
+    return '🌳';
+  }
+
+  String get islandTitle {
+    if (widget.points < 20) return 'Tiny Island';
+    if (widget.points < 50) return 'Growing Island';
+    if (widget.points < 100) return 'Blooming Island';
     return 'Paradise Island';
   }
 
-  String get islandEmoji {
-    if (points < 20) return '🌱';
-    if (points < 50) return '🌴';
-    if (points < 100) return '🌺';
-    return '🏝️';
-  }
-
   String get islandDescription {
-    if (points < 20) return 'Your island has just begun to grow.';
-    if (points < 50) return 'Nice progress. Your island is getting greener.';
-    if (points < 100) return 'Your island feels alive and beautiful.';
-    return 'Your island is now a peaceful paradise.';
+    if (widget.points < 20) {
+      return 'Your island has just started to grow.';
+    }
+    if (widget.points < 50) {
+      return 'Nice progress. Your island is becoming greener.';
+    }
+    if (widget.points < 100) {
+      return 'Beautiful work. Your island feels alive now.';
+    }
+    return 'Your island has become a peaceful paradise.';
   }
 
   @override
@@ -436,16 +465,67 @@ class IslandScreen extends StatelessWidget {
         title: const Text('Your Island'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(22),
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFB3E5FC), Color(0xFFE1F5FE)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          Positioned(
+            top: 40,
+            left: 30,
+            child: Container(
+              width: 70,
+              height: 20,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
+                color: Colors.white.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 70,
+            right: 40,
+            child: Container(
+              width: 90,
+              height: 24,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedBuilder(
+              animation: _waveController,
+              builder: (context, child) {
+                return Container(
+                  height: 220 + (_waveController.value * 10),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF4FC3F7),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(40),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 140),
+              width: 220,
+              height: 110,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFE0B2),
+                borderRadius: BorderRadius.circular(90),
                 boxShadow: const [
                   BoxShadow(
                     blurRadius: 10,
@@ -454,71 +534,83 @@ class IslandScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  Text(
-                    islandEmoji,
-                    style: const TextStyle(fontSize: 90),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    islandStage,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    islandDescription,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey.shade700,
-                    ),
-                  ),
-                ],
-              ),
             ),
-            const SizedBox(height: 18),
-            Container(
-              width: double.infinity,
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.95, end: 1.08),
+              duration: const Duration(seconds: 2),
+              curve: Curves.easeInOut,
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 205),
+                    child: Text(
+                      treeEmoji,
+                      style: const TextStyle(fontSize: 64),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          SafeArea(
+            child: Padding(
               padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(22),
-                boxShadow: const [
-                  BoxShadow(
-                    blurRadius: 10,
-                    color: Colors.black12,
-                    offset: Offset(0, 4),
-                  ),
-                ],
-              ),
               child: Column(
                 children: [
-                  const Text(
-                    'Island Stats',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(22),
+                      boxShadow: const [
+                        BoxShadow(
+                          blurRadius: 10,
+                          color: Colors.black12,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    'Points: $points',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Completed Sessions: $sessions',
-                    style: const TextStyle(fontSize: 20),
+                    child: Column(
+                      children: [
+                        Text(
+                          islandTitle,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          islandDescription,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          'Points: ${widget.points}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Sessions: ${widget.sessions}',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
