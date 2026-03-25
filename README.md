@@ -4,7 +4,7 @@
 
 ---
 
-## 🧠 Concept
+##  Concept
 
 Focus Island helps you build deep focus habits by turning your sessions into visual progress.
 
@@ -13,7 +13,7 @@ Every streak = evolution
 
 ---
 
-## 🚀 Current Version
+##  Current Version
 
 ![Version](https://img.shields.io/badge/version-v1.5-green)
 ![Status](https://img.shields.io/badge/status-active-success)
@@ -21,7 +21,7 @@ Every streak = evolution
 
 ---
 
-## ✨ Features
+##  Features
 
 ###  Core
 -  Deep Focus Sessions  
@@ -29,13 +29,13 @@ Every streak = evolution
    Rewards System  
 -  Local Progress Tracking  
 
-### 👤 User System
+###  User System
 -  Profile Screen  
 -  Edit Profile  
 -  Guest Mode (in progress)  
 -  Login System (upgrading)
 
-### 🎨 UI/UX
+###  UI/UX
 -  Clean Navigation  
 -  Activated Buttons  
 -  Removed Fake Data  
@@ -85,7 +85,7 @@ Every streak = evolution
 
 ---
 
-## 🎯 Future Vision
+##  Future Vision
 
 -  Global Leaderboard  
 -  Social System  
