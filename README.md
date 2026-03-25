@@ -23,11 +23,11 @@ Every streak = evolution
 
 ## ✨ Features
 
-### 🎯 Core
-- ⏱️ Deep Focus Sessions  
-- 🌱 Growth System (Plant / Island Evolution)  
-- 🎁 Rewards System  
-- 📊 Local Progress Tracking  
+###  Core
+-  Deep Focus Sessions  
+-  Growth System (Plant / Island Evolution)  
+   Rewards System  
+-  Local Progress Tracking  
 
 ### 👤 User System
 -  Profile Screen  
