@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 
 dotenv.config();
 
@@ -9,6 +10,8 @@ const paymentRoutes = require('./routes/payment_routes');
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const otpStore = new Map();
+const OTP_TTL_MS = 5 * 60 * 1000;
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(
   cors({
@@ -51,17 +54,26 @@ app.post('/api/auth/send-otp', (req, res) => {
     });
   }
 
-  const otp = '123456';
+  const otp = String(crypto.randomInt(100000, 1000000));
   otpStore.set(email, {
     otp,
-    expiresAt: Date.now() + 5 * 60 * 1000,
+    expiresAt: Date.now() + OTP_TTL_MS,
   });
 
-  return res.status(200).json({
+  if (!isProduction) {
+    console.log(`Development OTP for ${email}: ${otp}`);
+  }
+
+  const responsePayload = {
     success: true,
     message: 'OTP sent successfully',
-    otp,
-  });
+  };
+
+  if (!isProduction) {
+    responsePayload.otp_preview = otp;
+  }
+
+  return res.status(200).json(responsePayload);
 });
 
 app.post('/api/auth/verify-otp', (req, res) => {
@@ -125,5 +137,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Focus Island backend listening on http://localhost:${PORT}`);
+  console.log(`Focus Island backend listening on port ${PORT}`);
 });
