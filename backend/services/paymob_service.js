@@ -6,24 +6,29 @@ class PaymobService {
     this.baseUrl = 'https://accept.paymob.com/api';
   }
 
-  validateEnv() {
-    return Boolean(
-      process.env.PAYMOB_API_KEY &&
-        process.env.PAYMOB_INTEGRATION_ID &&
-        process.env.PAYMOB_IFRAME_ID
-    );
-  }
+  assertConfigured() {
+    const requiredEnvKeys = [
+      'PUBLIC_BASE_URL',
+      'PAYMOB_API_KEY',
+      'PAYMOB_IFRAME_ID',
+      'PAYMOB_INTEGRATION_ID',
+      'PAYMOB_HMAC_SECRET',
+    ];
 
-  isMockMode() {
-    return !this.validateEnv();
+    const missingEnvKeys = requiredEnvKeys.filter(
+      (envKey) => !String(process.env[envKey] || '').trim()
+    );
+
+    if (missingEnvKeys.length > 0) {
+      throw new Error(
+        `Missing required Paymob environment values: ${missingEnvKeys.join(', ')}`
+      );
+    }
   }
 
   getPublicBaseUrl() {
-    const rawBaseUrl =
-      process.env.PUBLIC_BASE_URL ||
-      `http://localhost:${process.env.PORT || 3000}`;
-
-    return rawBaseUrl.replace(/\/+$/, '');
+    this.assertConfigured();
+    return String(process.env.PUBLIC_BASE_URL).trim().replace(/\/+$/, '');
   }
 
   getCallbackUrlPrefix() {
@@ -33,18 +38,18 @@ class PaymobService {
   buildBillingData(customer = {}) {
     const fullName = String(customer.fullName || '').trim();
     const nameParts = fullName.split(/\s+/).filter(Boolean);
-    const firstName = nameParts.shift() || 'Focus';
-    const lastName = nameParts.join(' ') || 'Island';
-    const country = String(customer.country || 'EG').trim().toUpperCase();
+    const firstName = nameParts.shift() || fullName;
+    const lastName = nameParts.join(' ') || fullName;
+    const country = String(customer.country || '').trim().toUpperCase();
 
     return {
       apartment: 'NA',
-      email: customer.email || 'user@example.com',
+      email: String(customer.email || '').trim(),
       floor: 'NA',
       first_name: firstName,
       street: 'NA',
       building: 'NA',
-      phone_number: customer.phone || '+201234567890',
+      phone_number: String(customer.phone || '').trim(),
       shipping_method: 'NA',
       postal_code: '00000',
       city: 'NA',
@@ -55,13 +60,11 @@ class PaymobService {
   }
 
   async authenticate() {
-    if (this.isMockMode()) {
-      return 'mock_auth_token';
-    }
+    this.assertConfigured();
 
     try {
       const response = await axios.post(`${this.baseUrl}/auth/tokens`, {
-        api_key: process.env.PAYMOB_API_KEY,
+        api_key: String(process.env.PAYMOB_API_KEY).trim(),
       });
 
       return response.data.token;
@@ -71,9 +74,7 @@ class PaymobService {
   }
 
   async createOrder(authToken, amountCents, merchantOrderId) {
-    if (this.isMockMode()) {
-      return `mock_order_${amountCents}_${Date.now()}`;
-    }
+    this.assertConfigured();
 
     try {
       const response = await axios.post(`${this.baseUrl}/ecommerce/orders`, {
@@ -92,9 +93,7 @@ class PaymobService {
   }
 
   async createPaymentKey(authToken, orderId, amountCents, customer) {
-    if (this.isMockMode()) {
-      return `mock_payment_key_${orderId}_${amountCents}`;
-    }
+    this.assertConfigured();
 
     try {
       const response = await axios.post(
@@ -106,7 +105,7 @@ class PaymobService {
           order_id: orderId,
           billing_data: this.buildBillingData(customer),
           currency: 'EGP',
-          integration_id: Number(process.env.PAYMOB_INTEGRATION_ID),
+          integration_id: Number(String(process.env.PAYMOB_INTEGRATION_ID).trim()),
           lock_order_when_paid: true,
         }
       );
@@ -117,33 +116,10 @@ class PaymobService {
     }
   }
 
-  getCheckoutUrl(paymentKey, metadata = {}) {
-    if (this.isMockMode()) {
-      const callbackUrl = new URL(this.getCallbackUrlPrefix());
-      callbackUrl.searchParams.set(
-        'payment_session_id',
-        metadata.paymentSessionId || ''
-      );
-      callbackUrl.searchParams.set(
-        'merchant_order_id',
-        metadata.paymentSessionId || ''
-      );
-      callbackUrl.searchParams.set('order', String(metadata.orderId || ''));
-      callbackUrl.searchParams.set(
-        'id',
-        `mock_transaction_${metadata.paymentSessionId || Date.now()}`
-      );
-      callbackUrl.searchParams.set('success', 'true');
-      callbackUrl.searchParams.set('pending', 'false');
-      callbackUrl.searchParams.set('is_voided', 'false');
-      callbackUrl.searchParams.set('is_refunded', 'false');
-      callbackUrl.searchParams.set('error_occured', 'false');
-      callbackUrl.searchParams.set('txn_response_code', 'APPROVED');
-      callbackUrl.searchParams.set('source', 'mock');
-      return callbackUrl.toString();
-    }
+  getCheckoutUrl(paymentKey) {
+    this.assertConfigured();
 
-    const iframeId = process.env.PAYMOB_IFRAME_ID;
+    const iframeId = String(process.env.PAYMOB_IFRAME_ID).trim();
     return `https://accept.paymob.com/api/acceptance/iframes/${iframeId}?payment_token=${paymentKey}`;
   }
 
@@ -199,13 +175,12 @@ class PaymobService {
   }
 
   verifyCallbackHmac(payload, providedHmac) {
-    if (this.isMockMode()) {
-      return true;
-    }
+    this.assertConfigured();
 
-    const hmacSecret = process.env.PAYMOB_HMAC_SECRET;
+    const hmacSecret = String(process.env.PAYMOB_HMAC_SECRET).trim();
+    const normalizedProvidedHmac = String(providedHmac || '').trim();
 
-    if (!hmacSecret || !providedHmac) {
+    if (!normalizedProvidedHmac) {
       return false;
     }
 
@@ -215,7 +190,7 @@ class PaymobService {
       .update(hmacSource)
       .digest('hex');
 
-    const providedBuffer = Buffer.from(String(providedHmac).toLowerCase(), 'utf8');
+    const providedBuffer = Buffer.from(normalizedProvidedHmac.toLowerCase(), 'utf8');
     const computedBuffer = Buffer.from(computedHmac.toLowerCase(), 'utf8');
 
     if (providedBuffer.length !== computedBuffer.length) {

@@ -46,6 +46,12 @@ function buildInitialSession({
   };
 }
 
+function buildNotFoundCallbackHtml() {
+  return buildCallbackHtml({
+    paymentStatus: 'failed',
+  });
+}
+
 function updateSession(paymentSessionId, updates) {
   const current = paymentSessions.get(paymentSessionId);
 
@@ -390,21 +396,7 @@ exports.handlePaymentCallback = async (req, res) => {
     const session = resolveSession(normalizedPayload);
 
     if (!session) {
-      return res.status(404).send(buildCallbackHtml({
-        paymentStatus: 'failed',
-      }));
-    }
-
-    if (paymobService.isMockMode()) {
-      const updatedSession = handleVerifiedPayload({
-        session,
-        normalizedPayload,
-        verificationSource: 'mock_callback',
-        payloadField: 'callbackPayload',
-        payload: req.query,
-      });
-
-      return res.status(200).send(buildCallbackHtml(updatedSession));
+      return res.status(404).send(buildNotFoundCallbackHtml());
     }
 
     const providedHmac =
@@ -449,18 +441,6 @@ exports.handlePaymentWebhook = async (req, res) => {
         success: false,
         error: 'Payment session not found',
       });
-    }
-
-    if (paymobService.isMockMode()) {
-      const updatedSession = handleVerifiedPayload({
-        session,
-        normalizedPayload,
-        verificationSource: 'mock_webhook',
-        payloadField: 'webhookPayload',
-        payload: req.body,
-      });
-
-      return res.status(200).json(buildStatusResponse(updatedSession));
     }
 
     const providedHmac = String(
