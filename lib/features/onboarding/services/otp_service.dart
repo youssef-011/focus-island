@@ -1,69 +1,101 @@
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-class OtpService {
-  // Base URL for the backend API (for Android emulator)
-  static const String _baseUrl = 'http://10.0.2.2:3000/api/auth';
+import '../../../core/constants/api_config.dart';
 
-  /// Sends a request to the backend to generate and send an OTP to the given [email].
+class OtpService {
   Future<Map<String, dynamic>> sendOtp(String email) async {
-    final url = Uri.parse('$_baseUrl/send-otp');
+    final url = ApiConfig.buildUri('/api/auth/send-otp');
+    final payload = {'email': email.trim()};
+
     try {
+      debugPrint('OTP send request URL: $url');
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email}),
+        body: jsonEncode(payload),
       );
 
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint('OTP send response (${response.statusCode}): ${response.body}');
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseData = _safeJsonDecode(response.body);
+      final isSuccess = response.statusCode >= 200 &&
+          response.statusCode < 300 &&
+          responseData['success'] == true;
+
+      if (isSuccess) {
         return {
-          'success': responseData['success'] ?? true,
-          'message': responseData['message'] ?? 'OTP sent successfully'
-        };
-      } else {
-        return {
-          'success': false,
-          'message': responseData['message'] ?? 'Failed to send OTP'
+          'success': true,
+          'message': responseData['message'] ?? 'OTP sent successfully',
         };
       }
-    } catch (e) {
+
       return {
         'success': false,
-        'message': 'Network error. Please check if backend is running.'
+        'message': responseData['message'] ??
+            'Unable to send OTP. Please try again.',
+      };
+    } catch (error) {
+      debugPrint('OTP send error: $error');
+      return {
+        'success': false,
+        'message': 'Unable to connect to the server. Please try again.',
       };
     }
   }
 
-  /// Sends the [code] and [email] to the backend for verification.
   Future<Map<String, dynamic>> verifyOtp(String email, String code) async {
-    final url = Uri.parse('$_baseUrl/verify-otp');
+    final url = ApiConfig.buildUri('/api/auth/verify-otp');
+    final payload = {
+      'email': email.trim(),
+      'otp': code.trim(),
+    };
+
     try {
+      debugPrint('OTP verify request URL: $url');
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email, 'otp': code}),
+        body: jsonEncode(payload),
       );
 
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      debugPrint('OTP verify response (${response.statusCode}): ${response.body}');
 
-      if (response.statusCode == 200) {
+      final responseData = _safeJsonDecode(response.body);
+      final isSuccess = response.statusCode >= 200 &&
+          response.statusCode < 300 &&
+          responseData['success'] == true;
+
+      if (isSuccess) {
         return {
-          'success': responseData['success'] ?? true,
-          'message': responseData['message'] ?? 'Verification successful'
-        };
-      } else {
-        return {
-          'success': false,
-          'message': responseData['message'] ?? 'Invalid or expired code'
+          'success': true,
+          'message': responseData['message'] ?? 'OTP verified successfully',
         };
       }
-    } catch (e) {
+
       return {
         'success': false,
-        'message': 'Network error. Please try again.'
+        'message': responseData['message'] ??
+            'The code is invalid or expired. Please try again.',
       };
+    } catch (error) {
+      debugPrint('OTP verify error: $error');
+      return {
+        'success': false,
+        'message': 'Unable to connect to the server. Please try again.',
+      };
+    }
+  }
+
+  Map<String, dynamic> _safeJsonDecode(String body) {
+    try {
+      return jsonDecode(body) as Map<String, dynamic>;
+    } catch (_) {
+      return <String, dynamic>{};
     }
   }
 }

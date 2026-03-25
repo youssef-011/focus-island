@@ -15,11 +15,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _countryController = TextEditingController(text: 'EG');
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
+    _countryController.dispose();
     super.dispose();
   }
 
@@ -38,6 +42,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             builder: (context) => OtpVerificationScreen(
               name: _nameController.text.trim(),
               email: _emailController.text.trim(),
+              phone: _phoneController.text.trim(),
+              country: _countryController.text.trim().toUpperCase(),
             ),
           ),
         );
@@ -117,6 +123,39 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     }
                     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
                       return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                _buildTextField(
+                  label: 'Phone Number',
+                  controller: _phoneController,
+                  hint: '+201234567890',
+                  keyboardType: TextInputType.phone,
+                  enabled: !provider.isSendingOtp,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone number';
+                    }
+                    if (value.trim().length < 8) {
+                      return 'Please enter a valid phone number';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                _buildTextField(
+                  label: 'Country Code',
+                  controller: _countryController,
+                  hint: 'EG',
+                  enabled: !provider.isSendingOtp,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your country code';
+                    }
+                    if (value.trim().length != 2) {
+                      return 'Use a 2-letter country code';
                     }
                     return null;
                   },

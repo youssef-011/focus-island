@@ -8,11 +8,15 @@ import 'welcome_user_screen.dart';
 class OtpVerificationScreen extends StatefulWidget {
   final String name;
   final String email;
+  final String phone;
+  final String country;
 
   const OtpVerificationScreen({
     super.key,
     required this.name,
     required this.email,
+    required this.phone,
+    required this.country,
   });
 
   @override
@@ -72,6 +76,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           builder: (context) => WelcomeUserScreen(
             name: widget.name,
             email: widget.email,
+            phone: widget.phone,
+            country: widget.country,
           ),
         ),
       );

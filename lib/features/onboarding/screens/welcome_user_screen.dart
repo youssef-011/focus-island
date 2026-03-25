@@ -5,16 +5,25 @@ import '../services/onboarding_storage_service.dart';
 class WelcomeUserScreen extends StatelessWidget {
   final String name;
   final String email;
+  final String phone;
+  final String country;
 
   const WelcomeUserScreen({
     super.key,
     required this.name,
     required this.email,
+    required this.phone,
+    required this.country,
   });
 
   Future<void> _completeOnboarding(BuildContext context) async {
     final storage = OnboardingStorageService();
-    await storage.saveUserData(name: name, email: email);
+    await storage.saveUserData(
+      name: name,
+      email: email,
+      phone: phone,
+      country: country,
+    );
     await storage.setOnboardingCompleted(true);
     
     if (context.mounted) {
