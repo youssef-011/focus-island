@@ -38,7 +38,19 @@ instead of only tracking time, the user builds a peaceful island through consist
 - Dart
 
 ## Vision
-Focus Island is being developed as a real product idea with the potential to become a publishable mobile app.
+Focus Island is being developed as a real product idea with the potential to become a publishable mobile app. 
+
+## 🚀 Focus Island v1.5
+
+This update focused on turning the app into a cleaner and more functional local-first experience.
+
+- Activated previously non-functional buttons
+- Added working Profile & Edit Profile
+- Improved Settings
+- Removed misleading placeholder behavior
+- Enhanced overall UX
+
+This is a major step before upcoming updates.
 
 The long-term goal is to create an app that mixes productivity, relaxation, and progression in a simple but enjoyable experience.
 
