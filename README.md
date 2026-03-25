@@ -1,61 +1,108 @@
-# Focus Island
+# 🌿 Focus Island
 
-Focus Island is a Flutter-based productivity app designed to help users focus better using timed sessions and a rewarding island-building system.
+> A productivity app that turns your focus into growth 🌱
 
-Every completed focus session helps the user grow and improve their virtual island, making productivity feel calmer, more motivating, and more enjoyable.
+---
 
-## Project Status
-🚧 This project is currently under development.
+## 🧠 Concept
 
-The app is in its early stage, and the core idea is being built step by step before moving into more advanced features and polishing.
+Focus Island helps you build deep focus habits by turning your sessions into visual progress.
 
-## Main Idea
-The app is inspired by focus-based productivity tools, but with its own identity:
-instead of only tracking time, the user builds a peaceful island through consistency and completed sessions.
+Every session = growth  
+Every streak = evolution  
 
-## Current Progress
-- Basic Flutter project setup
-- Initial timer system
-- Early UI prototype
-- Project structure created
-- GitHub repository initialized
+---
 
-## Planned Features
-- Focus timer
-- Session rewards
-- Points system
-- Island growth stages
-- Local data saving
-- Unlockable items
-- Shop / upgrade system
-- Relaxing visual theme
-- Improved animations
-- Google Play publishing
-- Possible web version later
+## 🚀 Current Version
 
-## Built With
-- Flutter
-- Dart
+![Version](https://img.shields.io/badge/version-v1.5-green)
+![Status](https://img.shields.io/badge/status-active-success)
+![Platform](https://img.shields.io/badge/platform-flutter-blue)
 
-## Vision
-Focus Island is being developed as a real product idea with the potential to become a publishable mobile app. 
+---
 
-## 🚀 Focus Island v1.5
+## ✨ Features
 
-This update focused on turning the app into a cleaner and more functional local-first experience.
+### 🎯 Core
+- ⏱️ Deep Focus Sessions  
+- 🌱 Growth System (Plant / Island Evolution)  
+- 🎁 Rewards System  
+- 📊 Local Progress Tracking  
 
-- Activated previously non-functional buttons
-- Added working Profile & Edit Profile
-- Improved Settings
-- Removed misleading placeholder behavior
-- Enhanced overall UX
+### 👤 User System
+-  Profile Screen  
+-  Edit Profile  
+-  Guest Mode (in progress)  
+-  Login System (upgrading)
 
-This is a major step before upcoming updates.
+### 🎨 UI/UX
+-  Clean Navigation  
+-  Activated Buttons  
+-  Removed Fake Data  
+-  Honest UX Experience  
 
-The long-term goal is to create an app that mixes productivity, relaxation, and progression in a simple but enjoyable experience.
+---
 
-## Note
-This repository contains an active work-in-progress version of the project, so features, UI, and structure may change as development continues.
+## 🔄 Version History
 
-## Author
-Youssef
+### 🟢 v1.5
+-  Activated navigation  
+-  Added Profile & Edit Profile  
+-  Improved Settings  
+-  Removed fake leaderboard  
+-  Real local forest logic  
+
+### ⚪ v1.0
+- Initial UI  
+- Basic focus system  
+- Demo features  
+
+---
+
+## 📌 Roadmap
+
+### 🔜 Coming Next
+-  Google Sign-In  
+-  Full Authentication System  
+-  Advanced Growth System  
+-  UI Enhancements  
+-  Cloud Sync  
+
+---
+
+## 🛠️ Tech Stack
+
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
+![Provider](https://img.shields.io/badge/State%20Management-Provider-green)
+![Local Storage](https://img.shields.io/badge/Storage-Local-yellow)
+
+---
+
+## 📸 Screenshots
+
+> (Add your app screenshots here)
+
+---
+
+## 🎯 Future Vision
+
+-  Global Leaderboard  
+-  Social System  
+-  Achievements Expansion  
+-  Premium Features  
+
+---
+
+## 👨‍💻 Author
+
+**Youssef (youssef_dev)**  
+💡 Passionate about building meaningful apps  
+
+---
+
+## 🌱 Project Status
+
+![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen)
+
+Actively improving in phases alongside academic schedule.
