@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
+
 class ApiConfig {
-  static const String _defaultBaseUrl =
-      'https://focus-island.up.railway.app';
+  static const String _webLocalBaseUrl = 'http://localhost:3000';
+  static const String _androidEmulatorLocalBaseUrl = 'http://10.0.2.2:3000';
   static const String _apiBaseUrlOverride =
       String.fromEnvironment('API_BASE_URL');
 
@@ -9,7 +11,16 @@ class ApiConfig {
       return _apiBaseUrlOverride;
     }
 
-    return _defaultBaseUrl;
+    if (kIsWeb) {
+      return _webLocalBaseUrl;
+    }
+
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return _androidEmulatorLocalBaseUrl;
+      default:
+        return _webLocalBaseUrl;
+    }
   }
 
   static Uri buildUri(String path) {

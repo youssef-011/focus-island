@@ -35,12 +35,10 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
         normalizedUrl.contains('/payments/callback');
   }
 
-  bool _isHostedTerminalUrl(String url) {
+  bool _isHostedSuccessUrl(String url) {
     final normalizedUrl = url.toLowerCase();
 
-    return normalizedUrl.contains('success') ||
-        normalizedUrl.contains('fail') ||
-        normalizedUrl.contains('cancel');
+    return normalizedUrl.contains('success');
   }
 
   Future<void> _verifyPaymentResult() async {
@@ -104,7 +102,7 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               return NavigationDecision.navigate;
             }
 
-            if (_isHostedTerminalUrl(request.url)) {
+            if (_isHostedSuccessUrl(request.url)) {
               _verifyPaymentResult();
               return NavigationDecision.prevent;
             }

@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'features/app_state/providers/app_state_provider.dart';
+import 'features/auth/providers/auth_provider.dart';
+import 'features/auth/screens/create_account_screen.dart';
+import 'features/auth/screens/sign_in_screen.dart';
 import 'providers/deep_focus_provider.dart';
-import 'providers/leaderboard_provider.dart';
-import 'providers/real_forest_provider.dart';
-import 'providers/rewards_provider.dart';
-import 'features/onboarding/providers/onboarding_provider.dart';
+import 'features/notifications/screens/notifications_screen.dart';
+import 'features/profile/screens/profile_screen.dart';
+import 'features/statistics/screens/statistics_screen.dart';
+import 'features/timeline/screens/timeline_screen.dart';
+import 'features/settings/screens/settings_screen.dart';
+import 'features/achievements/screens/achievements_screen.dart';
 
 import 'screens/deep_focus/deep_focus_screen.dart';
 import 'screens/island/island_screen.dart';
@@ -35,11 +41,16 @@ class FocusIslandApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RewardsProvider()),
-        ChangeNotifierProvider(create: (_) => LeaderboardProvider()),
-        ChangeNotifierProvider(create: (_) => RealForestProvider()),
-        ChangeNotifierProvider(create: (_) => DeepFocusProvider()),
-        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => AppStateProvider()..initialize()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProxyProvider<AppStateProvider, DeepFocusProvider>(
+          create: (_) => DeepFocusProvider(),
+          update: (_, appState, deepFocusProvider) {
+            final provider = deepFocusProvider ?? DeepFocusProvider();
+            provider.attachAppState(appState);
+            return provider;
+          },
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -58,6 +69,14 @@ class FocusIslandApp extends StatelessWidget {
           '/real-forest': (_) => const RealForestScreen(),
           '/deep-focus': (_) => const DeepFocusScreen(),
           '/premium': (_) => const PremiumScreen(),
+          '/notifications': (_) => const NotificationsScreen(),
+          '/profile': (_) => const ProfileScreen(),
+          '/timeline': (_) => const TimelineScreen(),
+          '/statistics': (_) => const StatisticsScreen(),
+          '/settings': (_) => const SettingsScreen(),
+          '/achievements': (_) => const AchievementsScreen(),
+          '/create-account': (_) => const CreateAccountScreen(),
+          '/sign-in': (_) => const SignInScreen(),
         },
       ),
     );
