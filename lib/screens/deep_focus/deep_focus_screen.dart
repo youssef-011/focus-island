@@ -46,6 +46,7 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> {
   Widget build(BuildContext context) {
     final focusProvider = context.watch<DeepFocusProvider>();
     final appState = context.watch<AppStateProvider>();
+    final completionResult = focusProvider.lastCompletionResult;
 
     if (focusProvider.completionToken != _lastCompletionToken) {
       _lastCompletionToken = focusProvider.completionToken;
@@ -58,12 +59,14 @@ class _DeepFocusScreenState extends State<DeepFocusScreen> {
           context: context,
           builder: (context) => AlertDialog(
             backgroundColor: AppColors.surfaceDark,
-            title: const Text(
-              'Session Complete',
+            title: Text(
+              completionResult?.dailyGoalReachedNow == true
+                  ? 'Session Complete + Goal Reached'
+                  : 'Session Complete',
               style: TextStyle(color: Colors.white),
             ),
             content: Text(
-              'Great work. You just finished ${focusProvider.selectedDurationMinutes} minutes of ${focusProvider.selectedCategoryLabel}. Your island, stats, rewards, and timeline were updated.',
+              focusProvider.completionMessage,
               style: const TextStyle(
                 color: AppColors.textSecondary,
                 height: 1.5,

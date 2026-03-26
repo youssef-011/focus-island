@@ -4,6 +4,7 @@ enum AppNotificationType {
   streakUpdated,
   plantEvolved,
   challengeCompleted,
+  goalReached,
 }
 
 class FocusCategoryOption {
@@ -60,6 +61,59 @@ class FocusSessionRecord {
       interruptionCount: json['interruptionCount'] as int? ?? 0,
       categoryId: json['categoryId'] as String? ?? 'deep_focus',
       categoryLabel: json['categoryLabel'] as String? ?? 'Deep Focus',
+    );
+  }
+}
+
+class PlantedItemRecord {
+  final String id;
+  final String sessionId;
+  final int durationMinutes;
+  final String categoryId;
+  final String categoryLabel;
+  final DateTime plantedAt;
+  final String plantTypeId;
+  final String plantTitle;
+  final String visualKey;
+
+  const PlantedItemRecord({
+    required this.id,
+    required this.sessionId,
+    required this.durationMinutes,
+    required this.categoryId,
+    required this.categoryLabel,
+    required this.plantedAt,
+    required this.plantTypeId,
+    required this.plantTitle,
+    required this.visualKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'sessionId': sessionId,
+      'durationMinutes': durationMinutes,
+      'categoryId': categoryId,
+      'categoryLabel': categoryLabel,
+      'plantedAt': plantedAt.toIso8601String(),
+      'plantTypeId': plantTypeId,
+      'plantTitle': plantTitle,
+      'visualKey': visualKey,
+    };
+  }
+
+  factory PlantedItemRecord.fromJson(Map<String, dynamic> json) {
+    return PlantedItemRecord(
+      id: json['id'] as String? ?? '',
+      sessionId: json['sessionId'] as String? ?? '',
+      durationMinutes: json['durationMinutes'] as int? ?? 25,
+      categoryId: json['categoryId'] as String? ?? 'deep_focus',
+      categoryLabel: json['categoryLabel'] as String? ?? 'Deep Focus',
+      plantedAt: DateTime.tryParse(json['plantedAt'] as String? ?? '') ??
+          DateTime.now(),
+      plantTypeId: json['plantTypeId'] as String? ?? 'young_tree',
+      plantTitle: json['plantTitle'] as String? ?? 'Young Tree',
+      visualKey: json['visualKey'] as String? ?? 'young_tree',
     );
   }
 }
@@ -188,35 +242,131 @@ class AchievementUnlock {
   }
 }
 
+class DailyGoalState {
+  final int goalMinutes;
+  final String? lastCelebratedDateKey;
+
+  const DailyGoalState({
+    required this.goalMinutes,
+    required this.lastCelebratedDateKey,
+  });
+
+  factory DailyGoalState.defaults() {
+    return const DailyGoalState(
+      goalMinutes: 90,
+      lastCelebratedDateKey: null,
+    );
+  }
+
+  DailyGoalState copyWith({
+    int? goalMinutes,
+    String? lastCelebratedDateKey,
+    bool clearCelebratedDate = false,
+  }) {
+    return DailyGoalState(
+      goalMinutes: goalMinutes ?? this.goalMinutes,
+      lastCelebratedDateKey:
+          clearCelebratedDate ? null : lastCelebratedDateKey ?? this.lastCelebratedDateKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'goalMinutes': goalMinutes,
+      'lastCelebratedDateKey': lastCelebratedDateKey,
+    };
+  }
+
+  factory DailyGoalState.fromJson(Map<String, dynamic> json) {
+    return DailyGoalState(
+      goalMinutes: json['goalMinutes'] as int? ?? 90,
+      lastCelebratedDateKey: json['lastCelebratedDateKey'] as String?,
+    );
+  }
+}
+
+class AmbientSoundPreference {
+  final String selectedTrackId;
+  final double volume;
+
+  const AmbientSoundPreference({
+    required this.selectedTrackId,
+    required this.volume,
+  });
+
+  factory AmbientSoundPreference.defaults() {
+    return const AmbientSoundPreference(
+      selectedTrackId: '',
+      volume: 0.6,
+    );
+  }
+
+  AmbientSoundPreference copyWith({
+    String? selectedTrackId,
+    double? volume,
+  }) {
+    return AmbientSoundPreference(
+      selectedTrackId: selectedTrackId ?? this.selectedTrackId,
+      volume: volume ?? this.volume,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'selectedTrackId': selectedTrackId,
+      'volume': volume,
+    };
+  }
+
+  factory AmbientSoundPreference.fromJson(Map<String, dynamic> json) {
+    return AmbientSoundPreference(
+      selectedTrackId: json['selectedTrackId'] as String? ?? '',
+      volume: (json['volume'] as num?)?.toDouble() ?? 0.6,
+    );
+  }
+}
+
 class AppStateSnapshot {
   final List<FocusSessionRecord> focusSessions;
+  final List<PlantedItemRecord> plantedItems;
   final List<AppNotification> notifications;
   final List<RewardClaim> rewardClaims;
   final List<AchievementUnlock> achievementUnlocks;
+  final DailyGoalState dailyGoalState;
+  final AmbientSoundPreference ambientSoundPreference;
 
   const AppStateSnapshot({
     required this.focusSessions,
+    required this.plantedItems,
     required this.notifications,
     required this.rewardClaims,
     required this.achievementUnlocks,
+    required this.dailyGoalState,
+    required this.ambientSoundPreference,
   });
 
   factory AppStateSnapshot.empty() {
-    return const AppStateSnapshot(
-      focusSessions: [],
-      notifications: [],
-      rewardClaims: [],
-      achievementUnlocks: [],
+    return AppStateSnapshot(
+      focusSessions: const [],
+      plantedItems: const [],
+      notifications: const [],
+      rewardClaims: const [],
+      achievementUnlocks: const [],
+      dailyGoalState: DailyGoalState.defaults(),
+      ambientSoundPreference: AmbientSoundPreference.defaults(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'focusSessions': focusSessions.map((item) => item.toJson()).toList(),
+      'plantedItems': plantedItems.map((item) => item.toJson()).toList(),
       'notifications': notifications.map((item) => item.toJson()).toList(),
       'rewardClaims': rewardClaims.map((item) => item.toJson()).toList(),
       'achievementUnlocks':
           achievementUnlocks.map((item) => item.toJson()).toList(),
+      'dailyGoalState': dailyGoalState.toJson(),
+      'ambientSoundPreference': ambientSoundPreference.toJson(),
     };
   }
 
@@ -225,6 +375,13 @@ class AppStateSnapshot {
       focusSessions: (json['focusSessions'] as List<dynamic>? ?? [])
           .map(
             (item) => FocusSessionRecord.fromJson(
+              Map<String, dynamic>.from(item as Map),
+            ),
+          )
+          .toList(),
+      plantedItems: (json['plantedItems'] as List<dynamic>? ?? [])
+          .map(
+            (item) => PlantedItemRecord.fromJson(
               Map<String, dynamic>.from(item as Map),
             ),
           )
@@ -250,6 +407,18 @@ class AppStateSnapshot {
             ),
           )
           .toList(),
+      dailyGoalState: json['dailyGoalState'] is Map
+          ? DailyGoalState.fromJson(
+              Map<String, dynamic>.from(json['dailyGoalState'] as Map),
+            )
+          : DailyGoalState.defaults(),
+      ambientSoundPreference: json['ambientSoundPreference'] is Map
+          ? AmbientSoundPreference.fromJson(
+              Map<String, dynamic>.from(
+                json['ambientSoundPreference'] as Map,
+              ),
+            )
+          : AmbientSoundPreference.defaults(),
     );
   }
 }
@@ -319,6 +488,20 @@ class FocusCategoryStat {
     required this.label,
     required this.totalMinutes,
     required this.sessionsCount,
+  });
+}
+
+class FocusSessionCompletionResult {
+  final FocusSessionRecord session;
+  final PlantedItemRecord plantedItem;
+  final bool dailyGoalReachedNow;
+  final PlantGrowthStage? evolvedGrowthStage;
+
+  const FocusSessionCompletionResult({
+    required this.session,
+    required this.plantedItem,
+    required this.dailyGoalReachedNow,
+    required this.evolvedGrowthStage,
   });
 }
 

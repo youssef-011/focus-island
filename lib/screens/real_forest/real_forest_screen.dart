@@ -17,6 +17,7 @@ class RealForestScreen extends StatelessWidget {
     final appState = context.watch<AppStateProvider>();
     final stage = appState.currentGrowthStage;
     final entries = appState.forestEntries;
+    final plantedItems = appState.plantedItems;
     final stageVisual = ProgressVisuals.byKey(stage.visualKey);
 
     return Scaffold(
@@ -101,7 +102,7 @@ class RealForestScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '${appState.totalFocusMinutes} focus minutes • ${entries.length} planted items',
+                      '${appState.totalFocusMinutes} focus minutes • ${plantedItems.length} planted items',
                       style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 13,
@@ -111,6 +112,95 @@ class RealForestScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
+              const Text(
+                'Planted Sessions',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (plantedItems.isEmpty)
+                EmptyStateCard(
+                  icon: Icons.spa_outlined,
+                  title: 'Nothing planted yet',
+                  message:
+                      'Each completed focus session creates a visible plant here, based on your real duration and category.',
+                  actionLabel: 'Start Focusing',
+                  onActionPressed: () =>
+                      Navigator.pushNamed(context, '/deep-focus'),
+                )
+              else
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.92,
+                  ),
+                  itemCount: plantedItems.length,
+                  itemBuilder: (context, index) {
+                    final plantedItem = plantedItems[index];
+                    final visual = ProgressVisuals.byKey(plantedItem.visualKey);
+                    return Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.05),
+                        borderRadius: BorderRadius.circular(22),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 54,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              color: visual.backgroundColor.withValues(
+                                alpha: 0.2,
+                              ),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: Icon(
+                              visual.icon,
+                              color: visual.iconColor,
+                              size: 28,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            plantedItem.plantTitle,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            '${plantedItem.durationMinutes} min • ${plantedItem.categoryLabel}',
+                            style: const TextStyle(
+                              color: AppColors.accentMint,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            DateTimeFormatter.formatDate(plantedItem.plantedAt),
+                            style: const TextStyle(
+                              color: Colors.white54,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              const SizedBox(height: 24),
               const Text(
                 'Growth History',
                 style: TextStyle(

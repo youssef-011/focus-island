@@ -168,6 +168,13 @@ class AuthLocalStorageService {
     );
   }
 
+  Future<AuthActionResult> logOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    await _onboardingStorageService.clearActiveSession();
+    await prefs.remove(_keyCurrentAuthMode);
+    return const AuthActionResult.success('You have been logged out.');
+  }
+
   Future<String?> getSavedLocalAccountEmail() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_keyLocalAccountEmail);

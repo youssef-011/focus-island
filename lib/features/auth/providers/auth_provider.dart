@@ -53,6 +53,10 @@ class AuthProvider extends ChangeNotifier {
     return _runAction(_authLocalStorageService.signInWithGoogle);
   }
 
+  Future<AuthActionResult> logOut() async {
+    return _runAction(_authLocalStorageService.logOut);
+  }
+
   Future<String?> getSavedLocalAccountEmail() {
     return _authLocalStorageService.getSavedLocalAccountEmail();
   }

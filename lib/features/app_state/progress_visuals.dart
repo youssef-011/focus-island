@@ -37,6 +37,18 @@ class ProgressVisuals {
           backgroundColor: AppColors.primaryGreen,
           iconColor: Colors.white,
         );
+      case 'medium_tree':
+        return const ProgressVisual(
+          icon: Icons.park_rounded,
+          backgroundColor: AppColors.gold,
+          iconColor: AppColors.background,
+        );
+      case 'large_tree':
+        return const ProgressVisual(
+          icon: Icons.forest_rounded,
+          backgroundColor: AppColors.riverBlue,
+          iconColor: Colors.white,
+        );
       case 'mature_tree':
         return const ProgressVisual(
           icon: Icons.nature_rounded,

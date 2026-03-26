@@ -160,6 +160,7 @@ class _NotificationLeading extends StatelessWidget {
       AppNotificationType.streakUpdated => Icons.local_fire_department_rounded,
       AppNotificationType.plantEvolved => Icons.forest_rounded,
       AppNotificationType.challengeCompleted => Icons.emoji_events_rounded,
+      AppNotificationType.goalReached => Icons.flag_circle_rounded,
     };
 
     final backgroundColor = isRead

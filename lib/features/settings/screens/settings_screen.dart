@@ -5,7 +5,9 @@ import '../../../core/constants/api_config.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../widgets/common/custom_glass_card.dart';
+import '../../ambient_sounds/providers/ambient_sound_provider.dart';
 import '../../app_state/providers/app_state_provider.dart';
+import '../../auth/providers/auth_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -53,6 +55,38 @@ class SettingsScreen extends StatelessWidget {
                   _SettingsTile(
                     title: 'Unread notifications',
                     subtitle: '${appState.unreadNotificationsCount}',
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            const _SettingsSectionTitle('Focus'),
+            CustomGlassCard(
+              child: Column(
+                children: [
+                  _SettingsTile(
+                    title: 'Daily focus goal',
+                    subtitle:
+                        '${appState.todayFocusMinutes} / ${appState.dailyGoalMinutes} minutes today',
+                  ),
+                  const SizedBox(height: 16),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(
+                      Icons.music_note_rounded,
+                      color: AppColors.riverBlue,
+                    ),
+                    title: const Text(
+                      'Ambient sounds',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      appState.ambientSoundPreference.selectedTrackId.isEmpty
+                          ? 'Rain and forest loops are available for focus sessions.'
+                          : 'Current track: ${appState.ambientSoundPreference.selectedTrackId}',
+                      style: const TextStyle(color: AppColors.textSecondary),
+                    ),
+                    onTap: () => Navigator.pushNamed(context, '/sounds'),
                   ),
                 ],
               ),
@@ -114,6 +148,26 @@ class SettingsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 20),
+            const _SettingsSectionTitle('Account'),
+            CustomGlassCard(
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(
+                  Icons.logout_rounded,
+                  color: AppColors.warning,
+                ),
+                title: const Text(
+                  'Log out',
+                  style: TextStyle(color: Colors.white),
+                ),
+                subtitle: const Text(
+                  'Return to the auth entry screen without deleting your local data.',
+                  style: TextStyle(color: AppColors.textSecondary),
+                ),
+                onTap: () => _handleLogOut(context),
+              ),
+            ),
           ],
         ),
       ),
@@ -169,6 +223,65 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: AppColors.primaryGreen,
       ),
     );
+  }
+
+  Future<void> _handleLogOut(BuildContext context) async {
+    final ambientSoundProvider = context.read<AmbientSoundProvider>();
+    final authProvider = context.read<AuthProvider>();
+    final appStateProvider = context.read<AppStateProvider>();
+    final shouldProceed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: AppColors.surfaceDark,
+            title: const Text(
+              'Log out?',
+              style: TextStyle(color: Colors.white),
+            ),
+            content: const Text(
+              'Your active session will be cleared, but your local account and progress stay saved on this device.',
+              style: TextStyle(color: AppColors.textSecondary),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.warning,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Log out'),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+
+    if (!shouldProceed || !context.mounted) {
+      return;
+    }
+
+    await ambientSoundProvider.stopPlayback();
+    final result = await authProvider.logOut();
+    await appStateProvider.reloadForCurrentUser();
+
+    if (!context.mounted) {
+      return;
+    }
+
+    if (!result.isSuccess) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result.message),
+          backgroundColor: AppColors.warning,
+        ),
+      );
+      return;
+    }
+
+    Navigator.pushNamedAndRemoveUntil(context, '/intro', (route) => false);
   }
 }
 

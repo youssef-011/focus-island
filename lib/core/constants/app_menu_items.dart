@@ -30,8 +30,6 @@ class AppMenuItems {
       title: 'Ambient Sounds',
       icon: Icons.music_note,
       route: '/sounds',
-      isEnabled: false,
-      supportingLabel: 'Later',
     ),
     MenuItem(
       title: 'Tags',

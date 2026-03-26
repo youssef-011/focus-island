@@ -19,6 +19,159 @@ class IslandScreen extends StatefulWidget {
 class _IslandScreenState extends State<IslandScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  Future<void> _showDailyGoalEditor(AppStateProvider appState) async {
+    final controller = TextEditingController(
+      text: appState.dailyGoalMinutes.toString(),
+    );
+    var selectedGoal = appState.dailyGoalMinutes;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+            return Padding(
+              padding: EdgeInsets.fromLTRB(18, 18, 18, 18 + bottomInset),
+              child: Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDark,
+                  borderRadius: BorderRadius.circular(32),
+                  border: Border.all(color: Colors.white12),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Daily Focus Goal',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'Choose a calm target for today. Your goal resets naturally every new day.',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        height: 1.45,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [60, 90, 120].map((goal) {
+                        final isSelected = selectedGoal == goal;
+                        return ChoiceChip(
+                          label: Text('$goal min'),
+                          selected: isSelected,
+                          selectedColor: AppColors.lightGreen.withValues(
+                            alpha: 0.25,
+                          ),
+                          backgroundColor: Colors.white.withValues(alpha: 0.05),
+                          labelStyle: TextStyle(
+                            color: isSelected ? Colors.white : Colors.white70,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          side: BorderSide(
+                            color: isSelected
+                                ? AppColors.lightGreen
+                                : Colors.white24,
+                          ),
+                          onSelected: (_) {
+                            setModalState(() {
+                              selectedGoal = goal;
+                              controller.text = '$goal';
+                            });
+                          },
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 18),
+                    TextField(
+                      controller: controller,
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        labelText: 'Custom goal in minutes',
+                        hintText: '10 - 360',
+                        labelStyle: const TextStyle(
+                          color: AppColors.textSecondary,
+                        ),
+                        hintStyle: const TextStyle(color: Colors.white38),
+                        filled: true,
+                        fillColor: Colors.white.withValues(alpha: 0.05),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        final parsed = int.tryParse(value.trim());
+                        if (parsed == null) {
+                          return;
+                        }
+                        selectedGoal = parsed.clamp(10, 360);
+                      },
+                    ),
+                    const SizedBox(height: 18),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              side: const BorderSide(color: Colors.white24),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                            ),
+                            child: const Text('Cancel'),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final parsed = int.tryParse(controller.text.trim());
+                              final goal = (parsed ?? selectedGoal).clamp(
+                                10,
+                                360,
+                              );
+                              await appState.updateDailyGoalMinutes(goal);
+                              if (!context.mounted) {
+                                return;
+                              }
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.lightGreen,
+                              foregroundColor: AppColors.background,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                            ),
+                            child: const Text('Save Goal'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppStateProvider>();
@@ -159,6 +312,16 @@ class _IslandScreenState extends State<IslandScreen> {
                                     ],
                                   ),
                                 ),
+                              ),
+                              const SizedBox(height: 20),
+                              _DailyGoalCard(
+                                todayFocusMinutes: appState.todayFocusMinutes,
+                                dailyGoalMinutes: appState.dailyGoalMinutes,
+                                remainingMinutes: appState.remainingDailyGoalMinutes,
+                                progress: appState.dailyGoalProgress,
+                                isGoalReached: appState.isDailyGoalReached,
+                                celebratedGoalToday: appState.celebratedGoalToday,
+                                onEditGoal: () => _showDailyGoalEditor(appState),
                               ),
                               const SizedBox(height: 30),
                               _buildMainActionCard(
@@ -410,6 +573,138 @@ class _IslandScreenState extends State<IslandScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _DailyGoalCard extends StatelessWidget {
+  const _DailyGoalCard({
+    required this.todayFocusMinutes,
+    required this.dailyGoalMinutes,
+    required this.remainingMinutes,
+    required this.progress,
+    required this.isGoalReached,
+    required this.celebratedGoalToday,
+    required this.onEditGoal,
+  });
+
+  final int todayFocusMinutes;
+  final int dailyGoalMinutes;
+  final int remainingMinutes;
+  final double progress;
+  final bool isGoalReached;
+  final bool celebratedGoalToday;
+  final VoidCallback onEditGoal;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceDark,
+        borderRadius: BorderRadius.circular(26),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.06)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppColors.riverBlue.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.flag_rounded,
+                  color: AppColors.accentMint,
+                ),
+              ),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Daily Goal',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Track your real focus minutes for today.',
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              IconButton(
+                onPressed: onEditGoal,
+                icon: const Icon(
+                  Icons.edit_outlined,
+                  color: Colors.white70,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            '$todayFocusMinutes / $dailyGoalMinutes min',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 10,
+              backgroundColor: Colors.white12,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                isGoalReached ? AppColors.gold : AppColors.lightGreen,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            isGoalReached
+                ? 'Today\'s goal is complete. Every extra session now becomes bonus growth for your island.'
+                : '$remainingMinutes more minutes to reach today\'s goal.',
+            style: const TextStyle(
+              color: AppColors.textSecondary,
+              height: 1.45,
+            ),
+          ),
+          if (celebratedGoalToday || isGoalReached) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.gold.withValues(alpha: 0.16),
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                celebratedGoalToday ? 'Goal reached today' : 'Goal complete',
+                style: const TextStyle(
+                  color: AppColors.gold,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

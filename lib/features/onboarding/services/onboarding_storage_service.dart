@@ -60,6 +60,11 @@ class OnboardingStorageService {
     await prefs.setString(_keyActiveUserId, userId);
   }
 
+  Future<void> clearActiveSession() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyActiveUserId);
+  }
+
   Future<String?> getActiveUserId() async {
     final prefs = await SharedPreferences.getInstance();
     return _resolveActiveUserId(prefs);
