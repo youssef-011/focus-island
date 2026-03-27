@@ -53,7 +53,7 @@ Every streak = evolution
 
 ---
 
-## 🔄 Version History
+##  Version History
 
 ### 🟢 v2.0
 -  Added onboarding flow  
@@ -80,7 +80,7 @@ Every streak = evolution
 
 ---
 
-## 📌 Roadmap
+##  Roadmap
 
 ### 🔜 Coming Next
 -  Google Sign-In  
@@ -104,7 +104,7 @@ Every streak = evolution
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
 ### Onboarding & Entry
 
@@ -130,30 +130,21 @@ Main island dashboard showing current growth stage, daily goal tracking, and qui
 ### Deep Focus Setup
 
 <p align="center">
-  <img src="assets/screenshots/drawer_main.png" width="250"/>
+  <img src="assets/screenshots/focus_setup_1.png" width="250"/>
+  <img src="assets/screenshots/focus_setup_2.png" width="250"/>
 </p>
 
 Focus session setup interface where users choose duration and select what they want to focus on.
 
 ---
 
-### Focus Session
-
-<p align="center">
-  <img src="assets/screenshots/focus_setup.png" width="250"/>
-</p>
-
-Active focus session showing timer, session progress, and controls.
-
----
-
 ### Navigation Drawer
 
 <p align="center">
-  <img src="assets/screenshots/focus_running.png" width="250"/>
+  <img src="assets/screenshots/drawer.png" width="250"/>
 </p>
 
-Side navigation menu providing access to forest, focus mode, timeline, statistics, achievements, premium, and settings.
+Side navigation menu providing access to forest, deep focus, timeline, statistics, achievements, premium, and settings.
 
 ---
 
@@ -163,7 +154,7 @@ Side navigation menu providing access to forest, focus mode, timeline, statistic
   <img src="assets/screenshots/premium.png" width="250"/>
 </p>
 
-Premium subscription screen showing available plans, benefits, and upgrade options.
+Premium subscription screen showing plans, benefits, and upgrade options.
 
 ---
 
@@ -177,16 +168,23 @@ User profile displaying stats, progress, and achievements.
 
 ---
 
-### Ambient Sounds
+### Achievements
 
 <p align="center">
-  <img src="assets/screenshots/real_forest.png" width="250"/>
+  <img src="assets/screenshots/achievements.png" width="250"/>
 </p>
 
-Ambient sound controls designed to enhance focus sessions with calming audio.
+Achievements screen highlighting user milestones and progress rewards.
 
 ---
 
+### Ambient Sounds
+
+<p align="center">
+  <img src="assets/screenshots/ambient_sounds.png" width="250"/>
+</p>
+
+Ambient sound controls designed to enhance focus sessions with calming audio.
 ##  Future Vision
 
 -  Global Leaderboard  
@@ -202,7 +200,7 @@ Ambient sound controls designed to enhance focus sessions with calming audio.
 ## 👨‍💻 Author
 
 **Youssef (youssef_dev)**  
-💡 Passionate about building meaningful apps  
+ Passionate about building meaningful apps  
 
 ---
 
