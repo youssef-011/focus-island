@@ -1,212 +1,240 @@
 # 🌿 Focus Island
 
-> A productivity app that turns your focus into growth 🌱
+<p align="center">
+  <b>A productivity app that turns your focus into real, visible growth 🌱</b><br>
+  <i>Not just tracking time… but building a world.</i>
+</p>
 
 ---
 
-##  Concept
+## ⚡ Why Focus Island?
 
-Focus Island helps you build deep focus habits by turning your sessions into visual progress.
+Most productivity apps track time.
+**Focus Island transforms it.**
 
-Every session = growth  
-Every streak = evolution  
+Every focus session contributes to something bigger:
+🌱 Your island grows
+🌳 Your effort becomes visible
+🏝️ Your discipline builds a world
 
----
-
-##  Current Version
-
-![Version](https://img.shields.io/badge/version-v2.0-green)
-![Status](https://img.shields.io/badge/status-active-success)
-![Platform](https://img.shields.io/badge/platform-flutter-blue)
-![Build](https://img.shields.io/badge/build-updated-brightgreen)
+> **Focus is no longer abstract — it becomes something you can see.**
 
 ---
 
-##  Features
+## 🧠 Concept
 
-###  Core
--  Deep Focus Sessions  
--  Growth System (Plant / Island Evolution)  
--  Rewards System  
--  Local Progress Tracking  
--  Real Forest Progress System  
--  Daily Rewards  
--  Island-based Focus Experience  
+Focus Island is built on a simple idea:
 
-###  User System
--  Profile Screen  
--  Edit Profile  
--  Onboarding Flow  
--  Guest Mode (in progress)  
--  Login System (upgrading)  
--  Premium Screen  
--  Subscription Flow Integration (in progress)  
+* Every session = **Growth**
+* Every streak = **Evolution**
+* Every user = **A unique island**
 
-###  UI/UX
--  Clean Navigation  
--  Activated Buttons  
--  Removed Fake Data  
--  Honest UX Experience  
--  Improved Screen Structure  
--  Better User Flow  
--  More Polished App Sections  
+This creates a loop of:
+
+> **Effort → Reward → Motivation → More Effort**
 
 ---
 
-## 🔄 Version History
+## 🚀 Current Version
 
-### 🟢 v2.0
--  Added onboarding flow  
--  Added Premium screen  
--  Improved app structure and navigation  
--  Connected main screens with providers  
--  Added daily rewards flow  
--  Enhanced real forest system  
--  Improved island experience foundation  
--  Prepared payment/subscription integration flow  
--  Better scalable project organization  
-
-### 🟢 v1.5
--  Activated navigation  
--  Added Profile & Edit Profile  
--  Improved Settings  
--  Removed fake leaderboard  
--  Real local forest logic  
-
-### ⚪ v1.0
-- Initial UI  
-- Basic focus system  
-- Demo features  
+<p align="center">
+  <img src="https://img.shields.io/badge/version-v2.0-green"/>
+  <img src="https://img.shields.io/badge/status-active-success"/>
+  <img src="https://img.shields.io/badge/platform-flutter-blue"/>
+  <img src="https://img.shields.io/badge/build-stable-brightgreen"/>
+</p>
 
 ---
 
-##  Roadmap
+## ✨ Features
 
-### 🔜 Coming Next
--  Google Sign-In  
--  Full Authentication System  
--  Advanced Growth System  
--  UI Enhancements  
--  Cloud Sync  
--  Payment Activation  
--  Premium Subscription Logic  
--  Stronger Data Persistence  
--  More Tree Types and Island Visual Expansion  
+### 🔥 Core Experience
+
+* Deep Focus Sessions
+* Island Growth System (Visual Progress 🌱 → 🌳)
+* Rewards & Achievements
+* Daily Rewards System
+* Real Forest Progress Tracking
+* Island-based immersive experience
+
+### 👤 User System
+
+* Profile & Edit Profile
+* Onboarding Flow
+* Guest Mode *(in progress)*
+* Authentication System *(upgrading)*
+* Premium System
+* Subscription Flow *(in progress)*
+
+### 🎨 UI/UX Improvements
+
+* Clean & structured navigation
+* Honest UX (no fake data)
+* Improved screen flow
+* More polished interactions
+* Better app consistency
 
 ---
 
-## 🛠️ Tech Stack
-
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
-![Provider](https://img.shields.io/badge/State%20Management-Provider-green)
-![Local Storage](https://img.shields.io/badge/Storage-Local-yellow)
-
----
 ## 📸 Screenshots
 
-### Onboarding & Entry
+### 🟢 First Impression (Onboarding)
 
 <p align="center">
   <img src="assets/screenshots/onboarding.png" width="250"/>
 </p>
 
-Initial entry screen with multiple access options including Google sign-in, account creation, and guest mode.
-
 ---
 
-### Island Home Experience
+### 🏝️ Island Experience
 
 <p align="center">
   <img src="assets/screenshots/home.png" width="250"/>
   <img src="assets/screenshots/home_extended.png" width="250"/>
 </p>
 
-Main island dashboard showing current growth stage, daily goal tracking, and quick access to core features.
-
 ---
 
-### Deep Focus Setup
+### 🎯 Focus Setup
 
 <p align="center">
   <img src="assets/screenshots/focus_setup_1.png" width="250"/>
   <img src="assets/screenshots/focus_setup_2.png" width="250"/>
 </p>
 
-Focus session setup interface where users choose duration and select what they want to focus on.
-
 ---
 
-### Navigation Drawer
+### 🧭 Navigation System
 
 <p align="center">
   <img src="assets/screenshots/drawer.png" width="250"/>
 </p>
 
-Side navigation menu providing access to forest, deep focus, timeline, statistics, achievements, premium, and settings.
-
 ---
 
-### Premium Upgrade
+### 💎 Premium
 
 <p align="center">
   <img src="assets/screenshots/premium.png" width="250"/>
 </p>
 
-Premium subscription screen showing plans, benefits, and upgrade options.
-
 ---
 
-### Profile & Progress
+### 👤 Profile
 
 <p align="center">
   <img src="assets/screenshots/profile.png" width="250"/>
 </p>
 
-User profile displaying stats, progress, and achievements.
-
 ---
 
-### Achievements
+### 🏆 Achievements
 
 <p align="center">
   <img src="assets/screenshots/achievements.png" width="250"/>
 </p>
 
-Achievements screen highlighting user milestones and progress rewards.
-
 ---
 
-### Ambient Sounds
+### 🎧 Ambient Sounds
 
 <p align="center">
   <img src="assets/screenshots/ambient_sounds.png" width="250"/>
 </p>
 
-Ambient sound controls designed to enhance focus sessions with calming audio.
 ---
 
-##  Future Vision
+## 🔄 Version History
 
--  Global Leaderboard  
--  Social System  
--  Achievements Expansion  
--  Premium Features  
--  Cross-device Sync  
--  Immersive Island World  
--  Real Growth Journey for Every User  
+### 🟢 v2.0 (Current)
+
+* Introduced onboarding flow
+* Added Premium system
+* Integrated providers with main screens
+* Daily rewards logic
+* Real forest system improvements
+* Prepared subscription/payment flow
+* Scalable architecture improvements
+
+### 🟢 v1.5
+
+* Navigation activation
+* Profile system
+* Settings improvements
+* Removed fake leaderboard
+* Real local forest logic
+
+### ⚪ v1.0
+
+* Initial UI
+* Basic focus system
+
+---
+
+## 🛠️ Tech Stack
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
+  <img src="https://img.shields.io/badge/State%20Management-Provider-green"/>
+  <img src="https://img.shields.io/badge/Storage-Local-yellow"/>
+</p>
+
+---
+
+## 🔮 Roadmap
+
+### 🚧 Next Phase
+
+* Google Sign-In
+* Full Authentication System
+* Cloud Sync
+* Payment Activation
+* Premium Logic Completion
+* Advanced Data Persistence
+
+### 🌍 Future Vision
+
+* Global Leaderboard
+* Social Features
+* Expanded Achievement System
+* More Trees & Island Elements 🌳🌊
+* Fully immersive island world
+
+---
+
+## 🌱 Project Philosophy
+
+> This app is built around one belief:
+
+**“Consistency builds worlds.”**
+
+Focus Island aims to make discipline:
+
+* Visible
+* Rewarding
+* Addictive (in a good way)
 
 ---
 
 ## 👨‍💻 Author
 
-**Youssef (youssef_dev)**  
- Passionate about building meaningful apps  
+**Youssef (youssef_dev)**
+Building meaningful products with real impact 🚀
 
 ---
 
-## 🌱 Project Status
+## ⭐ Support
 
-![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen)
+If you like the project, consider giving it a ⭐
+It helps more than you think.
 
-Actively improving in phases alongside academic schedule.
+---
+
+## 📌 Status
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Maintained-Yes-brightgreen"/>
+</p>
+
+Actively evolving alongside real-world usage and learning journey.
