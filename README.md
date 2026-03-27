@@ -84,67 +84,72 @@ Every streak = evolution
 ### Onboarding & Entry
 
 <p align="center">
-  <img src="assets/screenshots/onboarding.png" alt="Onboarding entry screen" width="280" />
+  <img src="assets/screenshots/onboarding.png" width="250"/>
 </p>
-<p align="center">
-  <em>Clean entry screen with Google sign-in, account creation, and guest access.</em>
-</p>
+
+Initial entry screen with multiple access options including Google sign-in, account creation, and guest mode for quick access.
+
+---
 
 ### Island Home Experience
 
 <p align="center">
-  <img src="assets/screenshots/home.png" alt="Island home overview" width="280" />
-  <img src="assets/screenshots/home_extended.png" alt="Island home extended cards" width="280" />
+  <img src="assets/screenshots/home.png" width="250"/>
+  <img src="assets/screenshots/home_extended.png" width="250"/>
 </p>
-<p align="center">
-  <em>The island home highlights plant growth, daily goal progress, and direct access to core focus actions.</em>
-</p>
+
+Main island dashboard showing current growth stage, daily goal tracking, and quick access to core features like deep focus, forest, rewards, and statistics.
+
+---
 
 ### Navigation Drawer
 
 <p align="center">
-  <img src="assets/screenshots/drawer_main.png" alt="Primary navigation drawer" width="280" />
+  <img src="assets/screenshots/drawer_main.png" width="250"/>
 </p>
-<p align="center">
-  <em>The drawer presents the main product areas while clearly separating deferred navigation items.</em>
-</p>
+
+Side navigation system organizing the app structure including forest, focus modes, statistics, achievements, premium, and more.
+
+---
 
 ### Deep Focus Mode
 
 <p align="center">
-  <img src="assets/screenshots/focus_setup.png" alt="Deep focus setup screen" width="280" />
-  <img src="assets/screenshots/focus_running.png" alt="Deep focus running session" width="280" />
+  <img src="assets/screenshots/focus_setup.png" width="250"/>
+  <img src="assets/screenshots/focus_running.png" width="250"/>
 </p>
-<p align="center">
-  <em>Users can prepare a session, choose duration and category, then start the timer with live focus metrics.</em>
-</p>
+
+Customizable focus session setup with multiple durations and categories, followed by a clean running session interface with real-time tracking.
+
+---
 
 ### Premium Upgrade
 
 <p align="center">
-  <img src="assets/screenshots/premium.png" alt="Premium upgrade screen" width="280" />
+  <img src="assets/screenshots/premium.png" width="250"/>
 </p>
-<p align="center">
-  <em>The premium screen presents subscription plans and the key benefits available in the upgraded experience.</em>
-</p>
+
+Subscription screen presenting premium plans with advanced features and benefits.
+
+---
 
 ### Profile & Progress
 
 <p align="center">
-  <img src="assets/screenshots/profile.png" alt="Profile and progress summary" width="280" />
-</p>
-<p align="center">
-  <em>The profile screen summarizes local identity, focus metrics, streaks, planted items, and overall progress.</em>
+  <img src="assets/screenshots/profile.png" width="250"/>
 </p>
 
-### Forest Growth
+User profile showing stats, progress, and achievements.
+
+---
+
+### Real Forest
 
 <p align="center">
-  <img src="assets/screenshots/real_forest.png" alt="Forest growth screen" width="280" />
+  <img src="assets/screenshots/real_forest.png" width="250"/>
 </p>
-<p align="center">
-  <em>The forest view shows planted sessions and growth milestones derived from completed focus work.</em>
-</p>
+
+Visual representation of user growth through planted trees and focus sessions.
 
 ---
 
