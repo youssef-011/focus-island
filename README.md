@@ -112,7 +112,7 @@ Every streak = evolution
   <img src="assets/screenshots/onboarding.png" width="250"/>
 </p>
 
-Initial entry screen with multiple access options including Google sign-in, account creation, and guest mode for quick access.
+Initial entry screen with multiple access options including Google sign-in, account creation, and guest mode.
 
 ---
 
@@ -123,28 +123,27 @@ Initial entry screen with multiple access options including Google sign-in, acco
   <img src="assets/screenshots/home_extended.png" width="250"/>
 </p>
 
-Main island dashboard showing current growth stage, daily goal tracking, and quick access to core features like deep focus, forest, rewards, and statistics.
+Main island dashboard showing current growth stage, daily goal tracking, and quick access to core features.
+
+---
+
+### Deep Focus Setup
+
+<p align="center">
+  <img src="assets/screenshots/drawer_main.png" width="250"/>
+</p>
+
+Focus session setup interface where users select duration and define what they want to focus on.
 
 ---
 
 ### Navigation Drawer
 
 <p align="center">
-  <img src="assets/screenshots/drawer_main.png" width="250"/>
-</p>
-
-Side navigation system organizing the app structure including forest, focus modes, statistics, achievements, premium, and more.
-
----
-
-### Deep Focus Mode
-
-<p align="center">
-  <img src="assets/screenshots/focus_setup.png" width="250"/>
   <img src="assets/screenshots/focus_running.png" width="250"/>
 </p>
 
-Customizable focus session setup with multiple durations and categories, followed by a clean running session interface with real-time tracking.
+Side navigation menu providing access to different sections such as forest, focus mode, timeline, statistics, and settings.
 
 ---
 
@@ -154,7 +153,17 @@ Customizable focus session setup with multiple durations and categories, followe
   <img src="assets/screenshots/premium.png" width="250"/>
 </p>
 
-Subscription screen presenting premium plans with advanced features and benefits.
+Premium subscription screen showing plans, features, and upgrade options.
+
+---
+
+### Focus Session
+
+<p align="center">
+  <img src="assets/screenshots/focus_setup.png" width="250"/>
+</p>
+
+Active focus session with timer tracking and session controls.
 
 ---
 
@@ -164,17 +173,17 @@ Subscription screen presenting premium plans with advanced features and benefits
   <img src="assets/screenshots/profile.png" width="250"/>
 </p>
 
-User profile showing stats, progress, and achievements.
+User profile displaying statistics, progress, and achievements.
 
 ---
 
-### Real Forest
+### Ambient Sounds
 
 <p align="center">
   <img src="assets/screenshots/real_forest.png" width="250"/>
 </p>
 
-Visual representation of user growth through planted trees and focus sessions.
+Ambient sound controls designed to enhance focus sessions with calming audio.
 
 ---
 
