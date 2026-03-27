@@ -80,7 +80,7 @@ Every streak = evolution
 
 ---
 
-## 📌 Roadmap
+##  Roadmap
 
 ### 🔜 Coming Next
 -  Google Sign-In  
@@ -103,10 +103,62 @@ Every streak = evolution
 ![Local Storage](https://img.shields.io/badge/Storage-Local-yellow)
 
 ---
-
 ## 📸 Screenshots
 
-> (Add your app screenshots here)
+### Onboarding & Entry
+<p align="center">
+  <img src="assets/screenshots/onboarding.png" width="250"/>
+</p>
+
+Initial entry screen with multiple access options including Google sign-in, account creation, and guest mode for quick access.
+
+---
+
+### Island Home Experience
+<p align="center">
+  <img src="assets/screenshots/home.png" width="250"/>
+  <img src="assets/screenshots/home_extended.png" width="250"/>
+</p>
+
+Main island dashboard showing current growth stage, daily goal tracking, and quick access to core features like deep focus, forest, rewards, and statistics.
+
+---
+
+### Navigation Drawer
+<p align="center">
+  <img src="assets/screenshots/drawer_main.png" width="250"/>
+  <img src="assets/screenshots/drawer_extended.png" width="250"/>
+</p>
+
+Side navigation system organizing the full app structure including forest, focus modes, statistics, achievements, premium, and upcoming features.
+
+---
+
+### Deep Focus Mode
+<p align="center">
+  <img src="assets/screenshots/focus_setup.png" width="250"/>
+  <img src="assets/screenshots/focus_running.png" width="250"/>
+</p>
+
+Customizable focus session setup with multiple durations and categories, followed by a clean running session interface with real-time tracking.
+
+---
+
+### Premium Upgrade
+<p align="center">
+  <img src="assets/screenshots/premium.png" width="250"/>
+</p>
+
+Subscription screen presenting premium plans with clear value, including advanced features, cloud sync, and an ad-free experience.
+
+---
+
+### Profile & Progress
+<p align="center">
+  <img src="assets/screenshots/profile.png" width="250"/>
+</p>
+
+User profile overview displaying focus statistics, session tracking, achievements, and overall progress.
 
 ---
 
@@ -125,7 +177,7 @@ Every streak = evolution
 ## 👨‍💻 Author
 
 **Youssef (youssef_dev)**  
-💡 Passionate about building meaningful apps  
+ Passionate about building meaningful apps  
 
 ---
 
