@@ -81,7 +81,70 @@ Every streak = evolution
 
 ## 📸 Screenshots
 
-> (Add your app screenshots here)
+### Onboarding & Entry
+
+<p align="center">
+  <img src="assets/screenshots/onboarding.png" alt="Onboarding entry screen" width="280" />
+</p>
+<p align="center">
+  <em>Clean entry screen with Google sign-in, account creation, and guest access.</em>
+</p>
+
+### Island Home Experience
+
+<p align="center">
+  <img src="assets/screenshots/home.png" alt="Island home overview" width="280" />
+  <img src="assets/screenshots/home_extended.png" alt="Island home extended cards" width="280" />
+</p>
+<p align="center">
+  <em>The island home highlights plant growth, daily goal progress, and direct access to core focus actions.</em>
+</p>
+
+### Navigation Drawer
+
+<p align="center">
+  <img src="assets/screenshots/drawer_main.png" alt="Primary navigation drawer" width="280" />
+</p>
+<p align="center">
+  <em>The drawer presents the main product areas while clearly separating deferred navigation items.</em>
+</p>
+
+### Deep Focus Mode
+
+<p align="center">
+  <img src="assets/screenshots/focus_setup.png" alt="Deep focus setup screen" width="280" />
+  <img src="assets/screenshots/focus_running.png" alt="Deep focus running session" width="280" />
+</p>
+<p align="center">
+  <em>Users can prepare a session, choose duration and category, then start the timer with live focus metrics.</em>
+</p>
+
+### Premium Upgrade
+
+<p align="center">
+  <img src="assets/screenshots/premium.png" alt="Premium upgrade screen" width="280" />
+</p>
+<p align="center">
+  <em>The premium screen presents subscription plans and the key benefits available in the upgraded experience.</em>
+</p>
+
+### Profile & Progress
+
+<p align="center">
+  <img src="assets/screenshots/profile.png" alt="Profile and progress summary" width="280" />
+</p>
+<p align="center">
+  <em>The profile screen summarizes local identity, focus metrics, streaks, planted items, and overall progress.</em>
+</p>
+
+### Forest Growth
+
+<p align="center">
+  <img src="assets/screenshots/real_forest.png" alt="Forest growth screen" width="280" />
+</p>
+<p align="center">
+  <em>The forest view shows planted sessions and growth milestones derived from completed focus work.</em>
+</p>
 
 ---
 
