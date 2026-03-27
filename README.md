@@ -7,21 +7,21 @@
 
 ---
 
-## ⚡ Why Focus Island?
+##  Why Focus Island?
 
 Most productivity apps track time.
 **Focus Island transforms it.**
 
 Every focus session contributes to something bigger:
-🌱 Your island grows
-🌳 Your effort becomes visible
-🏝️ Your discipline builds a world
+ Your island grows
+ Your effort becomes visible
+ Your discipline builds a world
 
 > **Focus is no longer abstract — it becomes something you can see.**
 
 ---
 
-## 🧠 Concept
+##  Concept
 
 Focus Island is built on a simple idea:
 
@@ -35,7 +35,7 @@ This creates a loop of:
 
 ---
 
-## 🚀 Current Version
+##  Current Version
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-v2.0-green"/>
@@ -46,9 +46,9 @@ This creates a loop of:
 
 ---
 
-## ✨ Features
+##  Features
 
-### 🔥 Core Experience
+###  Core Experience
 
 * Deep Focus Sessions
 * Island Growth System (Visual Progress 🌱 → 🌳)
@@ -57,7 +57,7 @@ This creates a loop of:
 * Real Forest Progress Tracking
 * Island-based immersive experience
 
-### 👤 User System
+###  User System
 
 * Profile & Edit Profile
 * Onboarding Flow
@@ -66,7 +66,7 @@ This creates a loop of:
 * Premium System
 * Subscription Flow *(in progress)*
 
-### 🎨 UI/UX Improvements
+###  UI/UX Improvements
 
 * Clean & structured navigation
 * Honest UX (no fake data)
@@ -76,9 +76,9 @@ This creates a loop of:
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
-### 🟢 First Impression (Onboarding)
+###  First Impression (Onboarding)
 
 <p align="center">
   <img src="assets/screenshots/onboarding.png" width="250"/>
@@ -86,7 +86,7 @@ This creates a loop of:
 
 ---
 
-### 🏝️ Island Experience
+###  Island Experience
 
 <p align="center">
   <img src="assets/screenshots/home.png" width="250"/>
@@ -95,7 +95,7 @@ This creates a loop of:
 
 ---
 
-### 🎯 Focus Setup
+###  Focus Setup
 
 <p align="center">
   <img src="assets/screenshots/focus_setup_1.png" width="250"/>
@@ -104,7 +104,7 @@ This creates a loop of:
 
 ---
 
-### 🧭 Navigation System
+###  Navigation System
 
 <p align="center">
   <img src="assets/screenshots/drawer.png" width="250"/>
@@ -112,7 +112,7 @@ This creates a loop of:
 
 ---
 
-### 💎 Premium
+###  Premium
 
 <p align="center">
   <img src="assets/screenshots/premium.png" width="250"/>
@@ -120,7 +120,7 @@ This creates a loop of:
 
 ---
 
-### 👤 Profile
+###  Profile
 
 <p align="center">
   <img src="assets/screenshots/profile.png" width="250"/>
@@ -128,7 +128,7 @@ This creates a loop of:
 
 ---
 
-### 🏆 Achievements
+###  Achievements
 
 <p align="center">
   <img src="assets/screenshots/achievements.png" width="250"/>
@@ -136,7 +136,7 @@ This creates a loop of:
 
 ---
 
-### 🎧 Ambient Sounds
+###  Ambient Sounds
 
 <p align="center">
   <img src="assets/screenshots/ambient_sounds.png" width="250"/>
@@ -144,7 +144,7 @@ This creates a loop of:
 
 ---
 
-## 🔄 Version History
+##  Version History
 
 ### 🟢 v2.0 (Current)
 
@@ -171,7 +171,7 @@ This creates a loop of:
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 <p align="center">
   <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
@@ -182,7 +182,7 @@ This creates a loop of:
 
 ---
 
-## 🔮 Roadmap
+##  Roadmap
 
 ### 🚧 Next Phase
 
@@ -193,17 +193,17 @@ This creates a loop of:
 * Premium Logic Completion
 * Advanced Data Persistence
 
-### 🌍 Future Vision
+###  Future Vision
 
 * Global Leaderboard
 * Social Features
 * Expanded Achievement System
-* More Trees & Island Elements 🌳🌊
+* More Trees & Island Elements 
 * Fully immersive island world
 
 ---
 
-## 🌱 Project Philosophy
+##  Project Philosophy
 
 > This app is built around one belief:
 
