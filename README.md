@@ -80,7 +80,7 @@ Every streak = evolution
 
 ---
 
-##  Roadmap
+## 📌 Roadmap
 
 ### 🔜 Coming Next
 -  Google Sign-In  
@@ -103,9 +103,11 @@ Every streak = evolution
 ![Local Storage](https://img.shields.io/badge/Storage-Local-yellow)
 
 ---
+
 ## 📸 Screenshots
 
 ### Onboarding & Entry
+
 <p align="center">
   <img src="assets/screenshots/onboarding.png" width="250"/>
 </p>
@@ -115,6 +117,7 @@ Initial entry screen with multiple access options including Google sign-in, acco
 ---
 
 ### Island Home Experience
+
 <p align="center">
   <img src="assets/screenshots/home.png" width="250"/>
   <img src="assets/screenshots/home_extended.png" width="250"/>
@@ -125,16 +128,17 @@ Main island dashboard showing current growth stage, daily goal tracking, and qui
 ---
 
 ### Navigation Drawer
+
 <p align="center">
   <img src="assets/screenshots/drawer_main.png" width="250"/>
-  <img src="assets/screenshots/drawer_extended.png" width="250"/>
 </p>
 
-Side navigation system organizing the full app structure including forest, focus modes, statistics, achievements, premium, and upcoming features.
+Side navigation system organizing the app structure including forest, focus modes, statistics, achievements, premium, and more.
 
 ---
 
 ### Deep Focus Mode
+
 <p align="center">
   <img src="assets/screenshots/focus_setup.png" width="250"/>
   <img src="assets/screenshots/focus_running.png" width="250"/>
@@ -145,20 +149,32 @@ Customizable focus session setup with multiple durations and categories, followe
 ---
 
 ### Premium Upgrade
+
 <p align="center">
   <img src="assets/screenshots/premium.png" width="250"/>
 </p>
 
-Subscription screen presenting premium plans with clear value, including advanced features, cloud sync, and an ad-free experience.
+Subscription screen presenting premium plans with advanced features and benefits.
 
 ---
 
 ### Profile & Progress
+
 <p align="center">
   <img src="assets/screenshots/profile.png" width="250"/>
 </p>
 
-User profile overview displaying focus statistics, session tracking, achievements, and overall progress.
+User profile showing stats, progress, and achievements.
+
+---
+
+### Real Forest
+
+<p align="center">
+  <img src="assets/screenshots/real_forest.png" width="250"/>
+</p>
+
+Visual representation of user growth through planted trees and focus sessions.
 
 ---
 
@@ -177,7 +193,7 @@ User profile overview displaying focus statistics, session tracking, achievement
 ## 👨‍💻 Author
 
 **Youssef (youssef_dev)**  
- Passionate about building meaningful apps  
+💡 Passionate about building meaningful apps  
 
 ---
 
