@@ -15,9 +15,10 @@ Every streak = evolution
 
 ##  Current Version
 
-![Version](https://img.shields.io/badge/version-v1.5-green)
+![Version](https://img.shields.io/badge/version-v2.0-green)
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Platform](https://img.shields.io/badge/platform-flutter-blue)
+![Build](https://img.shields.io/badge/build-updated-brightgreen)
 
 ---
 
@@ -26,24 +27,44 @@ Every streak = evolution
 ###  Core
 -  Deep Focus Sessions  
 -  Growth System (Plant / Island Evolution)  
-   Rewards System  
+-  Rewards System  
 -  Local Progress Tracking  
+-  Real Forest Progress System  
+-  Daily Rewards  
+-  Island-based Focus Experience  
 
 ###  User System
 -  Profile Screen  
 -  Edit Profile  
+-  Onboarding Flow  
 -  Guest Mode (in progress)  
--  Login System (upgrading)
+-  Login System (upgrading)  
+-  Premium Screen  
+-  Subscription Flow Integration (in progress)  
 
 ###  UI/UX
 -  Clean Navigation  
 -  Activated Buttons  
 -  Removed Fake Data  
 -  Honest UX Experience  
+-  Improved Screen Structure  
+-  Better User Flow  
+-  More Polished App Sections  
 
 ---
 
 ## 🔄 Version History
+
+### 🟢 v2.0
+-  Added onboarding flow  
+-  Added Premium screen  
+-  Improved app structure and navigation  
+-  Connected main screens with providers  
+-  Added daily rewards flow  
+-  Enhanced real forest system  
+-  Improved island experience foundation  
+-  Prepared payment/subscription integration flow  
+-  Better scalable project organization  
 
 ### 🟢 v1.5
 -  Activated navigation  
@@ -67,6 +88,10 @@ Every streak = evolution
 -  Advanced Growth System  
 -  UI Enhancements  
 -  Cloud Sync  
+-  Payment Activation  
+-  Premium Subscription Logic  
+-  Stronger Data Persistence  
+-  More Tree Types and Island Visual Expansion  
 
 ---
 
@@ -91,6 +116,9 @@ Every streak = evolution
 -  Social System  
 -  Achievements Expansion  
 -  Premium Features  
+-  Cross-device Sync  
+-  Immersive Island World  
+-  Real Growth Journey for Every User  
 
 ---
 
